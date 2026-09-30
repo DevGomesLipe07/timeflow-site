@@ -4,7 +4,9 @@
 // dpo:      e-mail do encarregado de dados (LGPD); se vazio, usa o e-mail acima
 // demoApi:  endereço do assistente de IA (Cloudflare Worker), ex.: "https://timeflow-demo-ia.SEU-SUBDOMINIO.workers.dev"
 //           vazio = a demonstração com IA fica escondida
+// analyticsToken: token do Cloudflare Web Analytics (estatística de visitas sem cookies); vazio = desligado
 window.TIMEFLOW = {
+  analyticsToken: "f2bec6b48aa74d1baa2a1335e0df6abd",
   email: "7felipe.gomes@gmail.com",
   whatsapp: "5544997653909",
   dpo: "",
@@ -107,4 +109,12 @@ window.TIMEFLOW = {
   });
   var y = document.getElementById("ano");
   if (y) y.textContent = new Date().getFullYear();
+  // Cloudflare Web Analytics: contagem agregada de visitas, sem cookies e sem identificar pessoas.
+  if (c.analyticsToken && /^[A-Za-z0-9]{16,64}$/.test(c.analyticsToken)) {
+    var s = document.createElement("script");
+    s.defer = true;
+    s.src = "https://static.cloudflareinsights.com/beacon.min.js";
+    s.setAttribute("data-cf-beacon", JSON.stringify({ token: c.analyticsToken }));
+    document.head.appendChild(s);
+  }
 })();

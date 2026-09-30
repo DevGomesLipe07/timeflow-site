@@ -6,8 +6,19 @@
   if (!c.demoApi) return;
 
   var MAX_MSGS = 30;
+  var CHAVE = "tf-demo-conversa";
   var historico = []; // {role, content} enviados ao serviço
   var ocupado = false;
+  // A conversa fica só nesta aba (sessionStorage): some ao fechar a janela.
+  function salvar() {
+    try { sessionStorage.setItem(CHAVE, JSON.stringify(historico)); } catch (e) { /* sem armazenamento: segue sem salvar */ }
+  }
+  function carregar() {
+    try {
+      var h = JSON.parse(sessionStorage.getItem(CHAVE) || "[]");
+      return Array.isArray(h) ? h.filter(function (m) { return m && m.content; }).slice(-MAX_MSGS) : [];
+    } catch (e) { return []; }
+  }
 
   var SAUDACAO = "Olá! Sou a assistente de demonstração do TimeFlow. Me conte um pouco da sua operação — " +
     "quantas pessoas tem a equipe e em que área elas trabalham — que eu mostro como o TimeFlow funcionaria para vocês.";
@@ -101,8 +112,88 @@
         });
       }
       bolha.appendChild(a);
+      bolha.appendChild(ofertaContato(resumo));
     }
     msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  // ---------- "prefiro que me chamem": deixa nome e contato ----------
+  function campoTexto(nome, rotulo, tipo, obrigatorio) {
+    var l = document.createElement("label");
+    l.textContent = rotulo;
+    var i = document.createElement("input");
+    i.name = nome;
+    i.type = tipo;
+    i.maxLength = 120;
+    i.required = !!obrigatorio;
+    l.appendChild(i);
+    return l;
+  }
+
+  function ofertaContato(resumo) {
+    var caixa = document.createElement("div");
+    caixa.className = "tf-lead";
+    var abrirForm = document.createElement("button");
+    abrirForm.type = "button";
+    abrirForm.className = "tf-lead-link";
+    abrirForm.textContent = "Prefiro que a equipe me chame";
+    caixa.appendChild(abrirForm);
+    abrirForm.addEventListener("click", function () {
+      abrirForm.hidden = true;
+      var f = document.createElement("form");
+      f.appendChild(campoTexto("nome", "Seu nome", "text", true));
+      f.appendChild(campoTexto("contato", "E-mail ou WhatsApp com DDD", "text", true));
+      f.appendChild(campoTexto("empresa", "Empresa (opcional)", "text", false));
+      var armadilha = document.createElement("input"); // invisível: só robôs preenchem
+      armadilha.name = "site"; armadilha.tabIndex = -1; armadilha.autocomplete = "off"; armadilha.className = "tf-hp";
+      f.appendChild(armadilha);
+      var ok = document.createElement("label");
+      ok.className = "tf-consent";
+      var cb = document.createElement("input");
+      cb.type = "checkbox"; cb.required = true;
+      ok.appendChild(cb);
+      ok.appendChild(document.createTextNode(" Autorizo a equipe do TimeFlow a me contatar sobre esta demonstração. "));
+      var pol = document.createElement("a");
+      pol.href = "lgpd.html"; pol.target = "_blank"; pol.textContent = "Privacidade";
+      ok.appendChild(pol);
+      f.appendChild(ok);
+      var enviarBt = document.createElement("button");
+      enviarBt.type = "submit"; enviarBt.textContent = "Enviar";
+      f.appendChild(enviarBt);
+      var status = document.createElement("p");
+      status.className = "tf-lead-status";
+      f.appendChild(status);
+      f.addEventListener("submit", function (ev) {
+        ev.preventDefault();
+        enviarBt.disabled = true;
+        status.textContent = "Enviando…";
+        fetch(c.demoApi.replace(/\/$/, "") + "/lead", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nome: f.nome.value, contato: f.contato.value, empresa: f.empresa.value,
+            site: armadilha.value, consentimento: cb.checked, resumo: resumo || ""
+          })
+        }).then(function (r) {
+          return r.json().catch(function () { return {}; }).then(function (j) {
+            if (!r.ok) throw new Error(j.erro || "Não consegui enviar agora.");
+          });
+        }).then(function () {
+          caixa.textContent = "";
+          var p = document.createElement("p");
+          p.className = "tf-lead-ok";
+          p.textContent = "Recebido! A equipe do TimeFlow vai falar com você em breve.";
+          caixa.appendChild(p);
+        }).catch(function (e) {
+          status.textContent = e.message || "Não consegui enviar agora. Tente pelo WhatsApp.";
+          enviarBt.disabled = false;
+        });
+      });
+      caixa.appendChild(f);
+      msgs.scrollTop = msgs.scrollHeight;
+      f.nome.focus();
+    });
+    return caixa;
   }
 
   function bolha(role, texto) {
@@ -170,6 +261,7 @@
       resp.classList.remove("tf-digitando");
       renderizar(resp, acumulado, true);
       if (acumulado.trim()) historico.push({ role: "assistant", content: acumulado });
+      salvar();
     }).catch(function (e) {
       resp.classList.remove("tf-digitando");
       renderizar(resp, e.message || "Não consegui responder agora.", true);
@@ -184,9 +276,16 @@
   function abrir() {
     painel.hidden = false;
     fab.hidden = true;
+    try { sessionStorage.removeItem(CHAVE + "-fechado"); } catch (e) { /* ignora */ }
     if (!msgs.childElementCount) {
       bolha("assistant", SAUDACAO);
-      sugestoes(SUGESTOES);
+      var anterior = carregar();
+      if (anterior.length) {
+        historico = anterior;
+        anterior.forEach(function (m) { bolha(m.role === "user" ? "user" : "assistant", m.content); });
+      } else {
+        sugestoes(SUGESTOES);
+      }
     }
     setTimeout(function () { campo.focus(); }, 50);
   }
@@ -195,6 +294,7 @@
   painel.querySelector(".tf-close").addEventListener("click", function () {
     painel.hidden = true;
     fab.hidden = false;
+    try { sessionStorage.setItem(CHAVE + "-fechado", "1"); } catch (e) { /* ignora */ }
   });
   form.addEventListener("submit", function (ev) { ev.preventDefault(); enviar(campo.value); });
   campo.addEventListener("keydown", function (ev) {
@@ -208,4 +308,8 @@
     el.hidden = false;
     el.addEventListener("click", function (ev) { ev.preventDefault(); abrir(); });
   });
+  // Conversa em andamento nesta aba: reabre a janela ao trocar de página.
+  var fechado = false;
+  try { fechado = sessionStorage.getItem(CHAVE + "-fechado") === "1"; } catch (e) { /* ignora */ }
+  if (carregar().length && !fechado) abrir();
 })();

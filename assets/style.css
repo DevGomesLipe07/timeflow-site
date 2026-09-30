@@ -152,6 +152,20 @@ footer a { color: var(--muted); }
 .tf-digitando::after { content: "digitando…"; color: var(--muted); font-size: .85rem; }
 .tf-contato { display: inline-block; margin-top: 8px; padding: 9px 14px; border-radius: 10px; font-weight: 600;
   text-decoration: none; color: #fff !important; background: #25d366; }
+.tf-lead { margin-top: 8px; }
+.tf-lead-link { background: none; border: 0; padding: 0; color: var(--indigo); text-decoration: underline; cursor: pointer;
+  font: inherit; font-size: .9rem; }
+.tf-lead form { display: grid; gap: 8px; margin-top: 8px; }
+.tf-lead label { display: grid; gap: 3px; font-size: .82rem; color: var(--muted); }
+.tf-lead input[type=text] { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font: inherit;
+  font-size: .92rem; background: var(--bg); color: var(--text); }
+.tf-lead .tf-consent { display: block; font-size: .8rem; line-height: 1.4; }
+.tf-lead form button { justify-self: start; border: 0; border-radius: 8px; padding: 8px 16px; font: inherit; font-weight: 600;
+  color: #fff; cursor: pointer; background: linear-gradient(135deg, var(--indigo), var(--violet)); }
+.tf-lead form button:disabled { opacity: .6; cursor: wait; }
+.tf-lead-status { margin: 0; font-size: .82rem; color: var(--muted); }
+.tf-lead-ok { color: var(--ok); font-weight: 600; }
+.tf-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 .tf-sug { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 16px 10px; }
 .tf-sug button { border: 1px solid var(--line); background: var(--card); color: var(--text); border-radius: 999px;
   padding: 7px 12px; font-size: .85rem; cursor: pointer; font-family: inherit; }
