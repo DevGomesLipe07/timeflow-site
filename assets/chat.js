@@ -88,7 +88,10 @@
         bolha.appendChild(p);
       }
     });
-    if (final && m) {
+    if (final && m && !c.whatsapp) {
+      // sem WhatsApp comercial configurado: o formulário já aparece aberto
+      bolha.appendChild(ofertaContato(resumo, true));
+    } else if (final && m) {
       var a = document.createElement("a");
       a.className = "tf-contato";
       a.href = linkWhatsApp(resumo);
@@ -130,15 +133,17 @@
     return l;
   }
 
-  function ofertaContato(resumo) {
+  function ofertaContato(resumo, abertoDireto) {
     var caixa = document.createElement("div");
     caixa.className = "tf-lead";
     var abrirForm = document.createElement("button");
     abrirForm.type = "button";
     abrirForm.className = "tf-lead-link";
-    abrirForm.textContent = "Prefiro que a equipe me chame";
+    abrirForm.textContent = abertoDireto ? "Deixe seu contato que a equipe fala com você" : "Prefiro que a equipe me chame";
     caixa.appendChild(abrirForm);
+    if (abertoDireto) setTimeout(function () { abrirForm.click(); abrirForm.hidden = false; abrirForm.disabled = true; }, 0);
     abrirForm.addEventListener("click", function () {
+      if (caixa.querySelector("form")) return;
       abrirForm.hidden = true;
       var f = document.createElement("form");
       f.appendChild(campoTexto("nome", "Seu nome", "text", true));
@@ -191,7 +196,7 @@
       });
       caixa.appendChild(f);
       msgs.scrollTop = msgs.scrollHeight;
-      f.nome.focus();
+      if (!abertoDireto) f.nome.focus();
     });
     return caixa;
   }

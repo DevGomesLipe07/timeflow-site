@@ -16,7 +16,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://devgomeslipe07.github.io/timeflow-site/">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/style.css?v=5">
+  <link rel="stylesheet" href="assets/style.css?v=6">
 </head>
 <body>
 
@@ -181,14 +181,28 @@
     <div class="wrap">
       <div class="cta-box">
         <h2>Veja o TimeFlow com os dados da sua operação</h2>
-        <p>Agende uma demonstração e receba uma proposta de acordo com o tamanho da sua equipe.</p>
+        <p>Deixe seu contato e receba uma proposta de acordo com o tamanho da sua equipe.</p>
+        <form class="contato-form" data-form-contato>
+          <div class="contato-grid">
+            <label>Seu nome<input name="nome" type="text" maxlength="80" required></label>
+            <label>E-mail ou WhatsApp com DDD<input name="contato" type="text" maxlength="120" required></label>
+            <label>Empresa (opcional)<input name="empresa" type="text" maxlength="120"></label>
+            <label>Tamanho e área da equipe (opcional)<input name="mensagem" type="text" maxlength="200"
+              placeholder="ex.: 40 pessoas na cobrança"></label>
+          </div>
+          <input name="site" class="tf-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <label class="contato-consent"><input name="consentimento" type="checkbox" required>
+            Autorizo a equipe do TimeFlow a me contatar sobre esta solicitação. <a href="lgpd.html">Privacidade</a></label>
+          <button class="btn btn-primary" type="submit">Quero ser contatado</button>
+          <p class="contato-status" data-form-status role="status" aria-live="polite"></p>
+        </form>
         <div class="hero-cta" style="justify-content:center">
-          <a class="btn btn-primary" data-whatsapp href="#" target="_blank" rel="noopener" hidden>Falar no WhatsApp</a>
+          <a class="btn btn-ghost" data-whatsapp href="#" target="_blank" rel="noopener" hidden>Falar no WhatsApp</a>
           <a class="btn btn-ghost" data-gmail href="#" target="_blank" rel="noopener" hidden>Enviar pelo Gmail</a>
           <button class="btn btn-ghost" type="button" data-copy hidden>Copiar e-mail</button>
         </div>
         <p class="toast" data-toast role="status" aria-live="polite"></p>
-        <p style="margin-top:18px;font-size:.9rem">Contato: <span data-email-text></span></p>
+        <p style="margin-top:18px;font-size:.9rem" data-email-linha hidden>Contato: <span data-email-text></span></p>
       </div>
     </div>
   </section>
@@ -201,7 +215,7 @@
   </div>
 </footer>
 
-<script src="assets/config.js?v=5"></script>
-<script src="assets/chat.js?v=5"></script>
+<script src="assets/config.js?v=6"></script>
+<script src="assets/chat.js?v=6"></script>
 </body>
 </html>

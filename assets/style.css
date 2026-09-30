@@ -126,6 +126,16 @@ h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.2; margin: 0 0 12px; 
 .cta-box h2 { color: #fff; }
 .cta-box p { color: #d6d6f5; max-width: 620px; margin: 0 auto 24px; }
 .cta-box .btn-ghost { background: transparent; border-color: rgba(255, 255, 255, .35); color: #fff !important; }
+.contato-form { max-width: 640px; margin: 0 auto 8px; text-align: left; }
+.contato-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 640px) { .contato-grid { grid-template-columns: 1fr; } }
+.contato-form label { display: grid; gap: 4px; font-size: .88rem; color: #d6d6f5; }
+.contato-form input[type=text] { border: 1px solid rgba(255, 255, 255, .25); border-radius: 10px; padding: 11px 12px;
+  font: inherit; color: #fff; background: rgba(255, 255, 255, .08); }
+.contato-form input[type=text]::placeholder { color: #a9a9d8; }
+.contato-form .contato-consent { display: block; margin: 14px 0; font-size: .85rem; line-height: 1.5; }
+.contato-form .contato-consent a { color: #c4b5fd; }
+.contato-status { min-height: 1.4em; margin: 10px 0 0; font-size: .92rem; color: #fff; }
 footer { padding: 36px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
 footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 footer a { color: var(--muted); }
