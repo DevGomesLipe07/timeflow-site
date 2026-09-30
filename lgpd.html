@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacidade e LGPD — TimeFlow</title>
+  <meta name="description" content="Como o TimeFlow trata os dados dos colaboradores: o que coleta, o que não coleta, controles e responsabilidades.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="assets/favicon.svg" alt="">TimeFlow</a>
+    <nav class="nav-links">
+      <a href="index.html#recursos">Recursos</a>
+      <a class="btn btn-primary btn-small" data-cta href="index.html#contato">Agendar demonstração</a>
+    </nav>
+  </div>
+</header>
+
+<main class="doc">
+  <span class="eyebrow">Privacidade</span>
+  <h1>Como o TimeFlow trata os dados</h1>
+  <p>O TimeFlow mede como o tempo de trabalho é usado para ajudar empresas a gerir equipes com dados objetivos.
+    Esta página explica, de forma direta, o que é coletado, o que não é e quais controles existem.</p>
+
+  <h2>Quem é responsável pelos dados</h2>
+  <p>A empresa que contrata o TimeFlow decide monitorar a sua equipe e define as regras: ela é a
+    <strong>controladora</strong> dos dados. O TimeFlow processa os dados em nome dela, como <strong>operador</strong>,
+    conforme contrato.</p>
+
+  <h2>O que é coletado</h2>
+  <table>
+    <tr><th>Dado</th><th>Para quê</th></tr>
+    <tr><td>Domínio do site em uso no navegador (ex.: <em>crm.empresa.com</em>)</td><td>Classificar o tempo em categorias e calcular o score de foco</td></tr>
+    <tr><td>Aplicativo em uso no computador (agente desktop)</td><td>Medir o foco também fora do navegador</td></tr>
+    <tr><td>Tempo ativo e tempo ocioso</td><td>Calcular horas produtivas</td></tr>
+    <tr><td>Nome, e-mail, equipe e cargo</td><td>Identificar o colaborador e montar os relatórios por nível</td></tr>
+    <tr><td>Gravações ou textos de reuniões enviados à plataforma</td><td>Gerar resumo, pontos-chave e ações da reunião</td></tr>
+  </table>
+
+  <h2>O que não é coletado</h2>
+  <ul>
+    <li>O conteúdo das páginas visitadas.</li>
+    <li>O endereço completo das páginas — apenas o domínio é armazenado.</li>
+  </ul>
+
+  <h2>Controles do colaborador</h2>
+  <ul>
+    <li>Pausar e retomar o monitoramento pela própria extensão.</li>
+    <li>Saber quais regras estão em vigor (quais sites contam como distração, limites e horários).</li>
+    <li>Solicitar à empresa acesso, correção ou informações sobre os próprios dados, nos termos da LGPD.</li>
+  </ul>
+
+  <h2>Acesso e segurança</h2>
+  <ul>
+    <li>Acesso por perfil (administrador, gestor, analista, colaborador): cada pessoa vê apenas o que o perfil permite.</li>
+    <li>Isolamento dos dados no banco por regras de acesso em nível de linha.</li>
+    <li>Comunicação criptografada (HTTPS).</li>
+  </ul>
+
+  <h2>Fornecedores que processam dados</h2>
+  <table>
+    <tr><th>Fornecedor</th><th>Uso</th></tr>
+    <tr><td>Supabase</td><td>Hospedagem do banco de dados e das funções da plataforma</td></tr>
+    <tr><td>Anthropic (Claude)</td><td>Análise de reuniões e relatórios executivos</td></tr>
+    <tr><td>Serviços de transcrição (Hugging Face, Groq ou OpenAI)</td><td>Transcrever o áudio das reuniões</td></tr>
+  </table>
+  <p>Alguns desses fornecedores podem processar dados fora do Brasil, com as salvaguardas previstas na LGPD.</p>
+
+  <h2>Para a empresa contratante</h2>
+  <div class="note">Na implantação, fornecemos modelos de <strong>política interna de monitoramento</strong>,
+    <strong>aviso aos colaboradores</strong> e <strong>relatório de impacto à proteção de dados (RIPD)</strong>
+    para a empresa adaptar com o seu jurídico. Transparência com a equipe é parte do produto.</div>
+
+  <h2>Contato</h2>
+  <p>Dúvidas sobre dados pessoais: <strong data-dpo></strong></p>
+  <p style="font-size:.85rem">Última atualização: setembro de 2026.</p>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="ano"></span> TimeFlow — desenvolvido pela <span data-empresa></span></span>
+    <span><a href="index.html">Voltar ao início</a></span>
+  </div>
+</footer>
+
+<script src="assets/config.js"></script>
+<script src="assets/chat.js"></script>
+</body>
+</html>
